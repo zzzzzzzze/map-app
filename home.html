@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>交通事故減少のための地図アプリ</title>
+
+    <!-- PWA設定 -->
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <h1>交通事故減少のための地図アプリ</h1>
+
+    <form id="searchForm">
+        <button class="large-button" onclick="location.href='test.html'">埼玉県</button>
+    </form>
+
+    <ul id="resultList"></ul>
+
+    <script>
+        const searchForm = document.querySelector("#searchForm");
+        const searchInput = document.querySelector("#searchInput");
+
+        searchForm.addEventListener("submit", (event) => {
+            event.preventDefault();
+            const keyword = searchInput.value;
+            const results = searchData(keyword);
+            displayResults(results);
+        });
+
+        const priceSlider = document.querySelector("#priceSlider");
+        const priceValue = document.querySelector("#priceValue");
+        priceValue.textContent = priceSlider.value;
+
+        priceSlider.addEventListener("input", () => {
+            const maxPrice = Number(priceSlider.value);
+            priceValue.textContent = maxPrice;
+
+            const results = searchData("", maxPrice);
+            displayResults(results);
+        });
+    </script> 
+
+    <!-- サービスワーカーの登録コードをここに追加 -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('service-worker.js')
+                    .then((registration) => {
+                        console.log('Service Workerの登録に成功しました:', registration);
+                    })
+                    .catch((error) => {
+                        console.log('Service Workerの登録に失敗しました:', error);
+                    });
+            });
+        }
+    </script> 
+</body>
+
+<style type="text/css">
+    h1 {
+        font-size: 30px;
+        background-color: #00af3a;
+        color: #ffffff;
+        padding: 8px 14px;
+    }
+
+    .large-button {
+        font-size: 24px; /* フォントサイズを大きく */
+        padding: 15px 30px; /* ボタンの大きさを調整 */
+        background-color: #00af3a; /* 背景色 */
+        color: white; /* 文字色 */
+        border: none; /* 枠線なし */
+        border-radius: 5px; /* 角を丸く */
+        cursor: pointer; /* ポインタを表示 */
+        width: 100%; /* ボタンを横幅いっぱいに */
+        max-width: 300px; /* 最大幅を設定 */
+        display: block; /* ボタンをブロック表示 */
+        margin: 20px auto; /* 上下の余白を追加 */
+    }
+
+    .large-button:hover {
+        background-color: #007f1a; /* ホバー時の背景色 */
+    }
+</style>
+</html>
